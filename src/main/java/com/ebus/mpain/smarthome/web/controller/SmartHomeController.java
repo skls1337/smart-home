@@ -1,10 +1,13 @@
 package com.ebus.mpain.smarthome.web.controller;
 
 import com.ebus.mpain.smarthome.dp.command.Command;
-import com.ebus.mpain.smarthome.dp.command.DoorLock;
+import com.ebus.mpain.smarthome.dp.factory.AbstractDeviceFactory;
 import com.ebus.mpain.smarthome.dp.observer.Observer;
 import com.ebus.mpain.smarthome.dp.observer.Subject;
+import com.ebus.mpain.smarthome.model.AbstractDevice;
 import com.ebus.mpain.smarthome.model.HumiditySensor;
+import com.ebus.mpain.smarthome.model.LightBulb;
+import com.ebus.mpain.smarthome.service.FactoryProducerService;
 import lombok.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +27,8 @@ public class SmartHomeController {
 
     @Autowired
     Observer report;
+
+    AbstractDeviceFactory abstractDeviceFactory;
 
     @PostMapping("sensor/register")
     public void registerSensor() {
@@ -46,4 +51,22 @@ public class SmartHomeController {
     public void lockDoor(@RequestBody boolean locked) {
         command.execute(locked);
     }
+
+    @PostMapping("/factory/device")
+    public void createDevice(@RequestParam String type) {
+        abstractDeviceFactory = FactoryProducerService.deviceFactory(type);
+        if (type.equalsIgnoreCase("smart")) {
+            AbstractDevice bulb = abstractDeviceFactory.getDevice("LightBulb");
+            bulb.switchDevice();
+            AbstractDevice thermostat = abstractDeviceFactory.getDevice("Thermostat");
+            thermostat.switchDevice();
+        } else {
+            AbstractDevice router = abstractDeviceFactory.getDevice("Router");
+            router.switchDevice();
+            AbstractDevice _switch = abstractDeviceFactory.getDevice("Switch");
+            _switch.switchDevice();
+        }
+
+    }
+
 }
