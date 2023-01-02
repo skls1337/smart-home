@@ -14,12 +14,18 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("api/v1")
 public class SmartHomeController {
     private static final Logger LOG = LoggerFactory.getLogger(SmartHomeController.class);
+    private DoorLockController doorLockController;
 
     @Autowired
     Subject sensorService;
 
     @Autowired
     Observer report;
+
+    @Autowired
+    public DoorLockRestController(DoorLockController doorLockController) {
+        this.doorLockController = doorLockController;
+    }
 
     @PostMapping("sensor/register")
     public void registerSensor() {
@@ -36,5 +42,14 @@ public class SmartHomeController {
     public void notifyObservers() {
         LOG.info("Notifying observers...");
         sensorService.notifyObservers();
+    }
+
+    @PostMapping("/lock")
+    public void lockDoor(@RequestParam("lock") boolean lock) {
+      if (lock) {
+        doorLockController.lockDoor();
+      } else {
+        doorLockController.unlockDoor();
+      }
     }
 }
