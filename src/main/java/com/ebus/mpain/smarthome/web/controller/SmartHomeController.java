@@ -1,5 +1,7 @@
 package com.ebus.mpain.smarthome.web.controller;
 
+import com.ebus.mpain.smarthome.dp.command.Command;
+import com.ebus.mpain.smarthome.dp.command.DoorLock;
 import com.ebus.mpain.smarthome.dp.observer.Observer;
 import com.ebus.mpain.smarthome.dp.observer.Subject;
 import com.ebus.mpain.smarthome.model.HumiditySensor;
@@ -14,18 +16,14 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("api/v1")
 public class SmartHomeController {
     private static final Logger LOG = LoggerFactory.getLogger(SmartHomeController.class);
-    private DoorLockController doorLockController;
+    @Autowired
+    private Command command;
 
     @Autowired
     Subject sensorService;
 
     @Autowired
     Observer report;
-
-    @Autowired
-    public DoorLockRestController(DoorLockController doorLockController) {
-        this.doorLockController = doorLockController;
-    }
 
     @PostMapping("sensor/register")
     public void registerSensor() {
@@ -45,11 +43,7 @@ public class SmartHomeController {
     }
 
     @PostMapping("/lock")
-    public void lockDoor(@RequestParam("lock") boolean lock) {
-      if (lock) {
-        doorLockController.lockDoor();
-      } else {
-        doorLockController.unlockDoor();
-      }
+    public void lockDoor(@RequestBody boolean locked) {
+        command.execute(locked);
     }
 }
