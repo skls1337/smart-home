@@ -6,7 +6,6 @@ import com.ebus.mpain.smarthome.dp.observer.Observer;
 import com.ebus.mpain.smarthome.dp.observer.Subject;
 import com.ebus.mpain.smarthome.model.AbstractDevice;
 import com.ebus.mpain.smarthome.model.HumiditySensor;
-import com.ebus.mpain.smarthome.model.LightBulb;
 import com.ebus.mpain.smarthome.service.FactoryProducerService;
 import lombok.Data;
 import org.slf4j.Logger;
@@ -68,5 +67,4 @@ public class SmartHomeController {
         }
 
     }
-
 }
