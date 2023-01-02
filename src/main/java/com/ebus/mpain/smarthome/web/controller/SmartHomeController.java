@@ -6,7 +6,9 @@ import com.ebus.mpain.smarthome.dp.observer.Observer;
 import com.ebus.mpain.smarthome.dp.observer.Subject;
 import com.ebus.mpain.smarthome.model.AbstractDevice;
 import com.ebus.mpain.smarthome.model.HumiditySensor;
+import com.ebus.mpain.smarthome.model.Device;
 import com.ebus.mpain.smarthome.service.FactoryProducerService;
+import com.ebus.mpain.smarthome.service.SmartHomeDeviceBuilderService;
 import lombok.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +30,8 @@ public class SmartHomeController {
     Observer report;
 
     AbstractDeviceFactory abstractDeviceFactory;
+    @Autowired
+    SmartHomeDeviceBuilderService smartHomeDeviceBuilderService;
 
     @PostMapping("sensor/register")
     public void registerSensor() {
@@ -65,6 +69,10 @@ public class SmartHomeController {
             AbstractDevice _switch = abstractDeviceFactory.getDevice("Switch");
             _switch.switchDevice();
         }
-
+    }
+    @PostMapping("/builder/thermostat")
+    public void createThermostat(){
+        var device = smartHomeDeviceBuilderService.createDevice((new String[] {"min_temp", "60", "max_temp", "80"}));
+        LOG.info(device.toString());
     }
 }
