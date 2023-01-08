@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class TemperatureHumidityReportService implements Observer {
-    // Metoda care actualizează datele afișate în raport atunci când sunt notificate de către subiect
     @Autowired
     private final HumiditySensorRepository humiditySensorRepository;
     private static final Logger LOG = LoggerFactory.getLogger(HumiditySensorRepository.class);

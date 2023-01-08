@@ -25,7 +25,6 @@ public class TemperatureHumiditySensorService implements Subject {
     @Autowired
     private final HumiditySensorRepository humiditySensorRepository;
 
-    // Metode pentru înregistrarea și eliminarea observatorilor
     @Override
     public void registerObserver(Observer o) {
         observers.add(o);
@@ -39,7 +38,6 @@ public class TemperatureHumiditySensorService implements Subject {
         }
     }
 
-    // Metoda pentru notificarea observatorilor când se produc schimbări în date
     @Override
     public void notifyObservers() {
         if(observers.isEmpty()) {
@@ -51,7 +49,6 @@ public class TemperatureHumiditySensorService implements Subject {
         }
     }
 
-    // Metoda care actualizează datele colectate de senzor
     @Override
     public void setMeasurements(HumiditySensor humiditySensor) {
         this.humiditySensor = humiditySensor;
